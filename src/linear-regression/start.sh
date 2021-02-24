@@ -1,0 +1,1 @@
+winpty docker container run --rm -it -v /$(PWD)/images:/src/images linear-reg
