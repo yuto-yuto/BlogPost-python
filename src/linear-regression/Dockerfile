@@ -7,7 +7,7 @@ RUN mkdir -p /src/images
 
 WORKDIR /src
 COPY ./dataset/housing.csv /src/dataset/
-# CMD [ "python", "process.py" ]
-CMD [ "sh" ]
+CMD [ "python", "process.py" ]
+# CMD [ "sh" ]
 
 COPY ./*.py ./
