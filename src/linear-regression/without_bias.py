@@ -11,13 +11,14 @@ def train(X, Y):
     weight = 0
     learningRate = 100
     for i in range(1000):
+        currentLoss = calculateLoss(X, Y, weight)
+
         if i % 50 == 0:
             plot.plot(X, Y, "bo")
             image = plot.plot([0, 10], [0, 10 * weight], linewidth = 1.0, color = "g")
             images.append(image)
+            print(i, weight, currentLoss)
 
-        currentLoss = calculateLoss(X, Y, weight)
-        print(i, currentLoss)
         if currentLoss > calculateLoss(X, Y, weight + learningRate):
             weight += learningRate
         elif currentLoss > calculateLoss(X, Y, weight - learningRate):
@@ -26,6 +27,12 @@ def train(X, Y):
             return weight
     return weight
 
+def prepareImage():
+    sns.set()
+    plot.xticks(fontsize = 10)
+    plot.yticks(fontsize = 10)
+    plot.xlabel("RM", fontsize = 10)
+    plot.ylabel("MEDV", fontsize = 10)
 
 figure = plot.figure()
 images = []
@@ -36,16 +43,12 @@ Y = data[:, 3]
 
 weight = train(X, Y)
 
-sns.set()
-plot.xticks(fontsize = 10)
-plot.yticks(fontsize = 10)
-plot.xlabel("RM", fontsize = 10)
-plot.ylabel("MEDV", fontsize = 10)
-
+prepareImage()
 ani1 = animation.ArtistAnimation(figure, images, interval = 100)
 ani1.save("/src/images/regression.gif", writer = "imagemagick")
 
 plot.clf()
+prepareImage()
 plot.plot(X, Y, "bo")
 plot.plot([0, 10], [0, 10 * weight], linewidth = 1.0, color = "g")
 plot.savefig("/src/images/linear-regression-without-bias.png")
