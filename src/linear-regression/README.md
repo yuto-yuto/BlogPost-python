@@ -2,11 +2,11 @@
 
 ## Data Preparation
 
-This repository doesn't contain dataset. Download boston house prices data from [Kaggle](https://www.kaggle.com/vikrishnan/boston-house-prices) and place it to `src/linear-regression/dataset/housing.csv`.
+This repository doesn't contain dataset. Download boston house prices data from [Kaggle](https://www.kaggle.com/schirmerchad/bostonhoustingmlnd) and place it to `src/linear-regression/dataset/housing.csv`.
 
 ## How to build and start
 
-Images will be created in `images` directory.
+Images will be created in `images` directory. You need to comment out the code in process.py file where you want to run.
 
 ### With Docker
 
