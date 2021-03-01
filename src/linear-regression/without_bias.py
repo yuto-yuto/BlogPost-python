@@ -15,7 +15,11 @@ def train(X, Y):
 
         if i % 50 == 0:
             plot.plot(X, Y, "bo")
-            image = plot.plot([0, 10], [0, 10 * weight], linewidth = 1.0, color = "g")
+            image = plot.plot(
+                [0, 10], 
+                [0, 10 * weight], 
+                linewidth = 1.0, 
+                color = "g")
             images.append(image)
             print(i, weight, currentLoss)
 

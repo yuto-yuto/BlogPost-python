@@ -47,7 +47,11 @@ def trainWithBias2(X, Y):
 
         if i % 200 == 0:
             plot.plot(X, Y, "bo")
-            image = plot.plot([0, 10], [0 + bias, 10 * weight + bias], linewidth = 1.0, color = "g")
+            image = plot.plot(
+                [0, 10], 
+                [0 + bias, 10 * weight + bias], 
+                linewidth = 1.0, 
+                color = "g")
             images2.append(image)
             print(i, weight, bias, currentLoss)
 
