@@ -1,4 +1,7 @@
 class FirstClass():
+    _protected_one = 1
+    __private_one = 1
+
     def __init__(self, name):
         self.name = name
 
@@ -7,15 +10,22 @@ class FirstClass():
         self.name = None
         print(f"name was set to {self.name}")
 
-    def ReturnHello(self):
+    def return_hello(self):
         return f"Hello {self.name}"
 
-    def doSomething(self):
+    def use_members(self):
+        print("protected: " + str(self._protected_one))
+        print("private: " + str(self.__private_one))
+
+    def do_something(self):
         raise NotImplementedError("Method not implemented")
 
 
 instance = FirstClass("Yuto")
-print(instance.ReturnHello())
+print(instance.return_hello())
+print(instance._protected_one)
+print(instance.use_members())
+print(instance.__private_one)
 print("---------")
 
 
@@ -30,16 +40,16 @@ class SecondClass(FirstClass):
         print(f"age was set to {self.age}")
         super().__del__()
 
-    def ReturnHey(self):
+    def return_hey(self):
         return f"Hey {self.name} {self.age}"
 
 
 instance2 = SecondClass("Yuto2", 35)
-print(instance2.ReturnHello())
-print(instance2.ReturnHey())
+print(instance2.return_hello())
+print(instance2.return_hey())
 
 try:
     print("Call doSomething()")
-    instance2.doSomething()
+    instance2.do_something()
 except BaseException as e:
     print(f"ERROR: {e}")
