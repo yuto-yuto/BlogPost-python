@@ -1,9 +1,9 @@
 
-def power(val):
+def square(val):
     return val * val
 
 
-result = map(power, [1, 2, 3])
+result = map(square, [1, 2, 3])
 print(result)
 # <map object at 0x00000174CF1D5FA0>
 print([print(v) for v in result])
@@ -14,9 +14,16 @@ print([print(v) for v in result])
 print(list(result))  # []
 
 print()
-result = map(power, [1, 2, 3])
+result = map(square, [1, 2, 3])
 print(f"list(result): {list(result)}")
 
+result = list(map(square, [1, 2, 3]))
+[print(v) for v in result]
+print()
+
+
+print(list(map(square, [1, 2, 3, 1, 2, 3, 4])))
+print(set(map(square, [1, 2, 3, 1, 2, 3, 4])))
 print()
 
 
