@@ -19,99 +19,84 @@ except BaseException as e:
 
 
 def solution1(values):
-    inside = ["".join(element) for element in values]
-    result = "".join(inside)
-    return inside, result
-    # print(f"inside: {inside}")  # inside: ['first', 'second']
-    # print("--- ".join(inside))  # first--- second
-
-
-# print()
-# solution1([["first"], ["second"]])
-# solution1([["1", "2", "3"], ["4", "5", "6"]])
-# solution1([1, 2, 3])
-# solution1([[1, 2, 3], [4, 5, 6]])
-# solution1([["1", 2, 3], [4, 5, 6]])
-# solution1([[[11, 12, 13], [21, 22]], [[31, 32], [41, 42]]])
-
-# try:
-#     solution1([[1], [2]])
-# except BaseException as e:
-#     # sequence item 0: expected str instance, int found
-#     print(e)
-
-# print()
+    intermediate = ["".join(element) for element in values]
+    result = "".join(intermediate)
+    return intermediate, result
 
 
 def solution2(values):
-    inside = ["".join(str(element)) for element in values]
-    result = "".join(inside)
-    return inside, result
-    # inside = ["".join(str(element)) for element in values]
-    # print(f"inside: {inside}")  # inside: ["['1', 2, 3, 4]", '[9, 8, 7, 6]']
-    # print("--- ".join(inside))  # ['1', 2, 3, 4]--- [9, 8, 7, 6]
-
-
-# solution2([1, 2, 3])
-# solution2([1, 2, 3])
-# solution2([["1", 2, 3, 4], [9, 8, 7, 6]])
-
-# print()
+    intermediate = ["".join(str(element)) for element in values]
+    result = "".join(intermediate)
+    return intermediate, result
 
 
 def solution3(values):
-    inside = ["".join(map(str, element)) for element in values]
-    print(f"inside: {inside}")  # inside: ['1234', '9876']
-    print("--- ".join(inside))  # 1234--- 9876
+    intermediate = ["".join(map(str, element)) for element in values]
+    result = "".join(intermediate)
+    return intermediate, result
 
 
-# solution3([["1", 2, 3, 4], [9, 8, 7, 6]])
+def flat(element) -> list:
+    has_list = any([isinstance(x, list) for x in element])
+    if not has_list:
+        return element
 
-# mapData = map(str, ["1", 2, 3, 4])
-# [print(x) for x in mapData]
-# 1
-# 2
-# 3
-# 4
+    flatten_list = []
+    for x in element:
+        if isinstance(x, list):
+            val = flat(x)
+            flatten_list.extend(val)
+        else:
+            flatten_list.append(x)
 
-lines = [
-    "first line\n",
-    "second line\n",
-    "third line\n",
-]
+    return flatten_list
 
-# print("\n".join(lines))
-# first line
-#
-# second line
-#
-# third line
-#
+
+def solution4(values):
+    flatten_list = flat(values)
+
+    intermediate = ["".join(str(element)) for element in flatten_list]
+    result = "".join(intermediate)
+    return intermediate, result
+
 
 TEST_DATASET = [
     [1, 2, 3],
     ["1", "2", "3"],
     ["1", 2, 3],
+    [["first"], ["second"]],
+    [["1", "2"], ["3"]],
     [[1, 2, 3], [4, 5, 6]],
     [["1", 2, 3], [4, "5", 6]],
+    [[["fir"], ["st"]], [["se", "co"], ["nd"]]],
     [[[11], [21, 22]], [[31, 32], [41, 42]]],
 ]
 
 
 def run_test(callback, values):
     try:
-        callback(values)
+        intermediate, result = callback(values)
+        print(f"intermediate: {intermediate}")
+        print(f"RESULT: {values} -> {result}")
     except Exception as err:
         print(f"ERROR: {values}, {format(err)}")
+    finally:
+        print()
 
 
 print("=== solution1 ===")
-[run_test(solution1,values) for values in TEST_DATASET]
+[run_test(solution1, values) for values in TEST_DATASET]
 
 print()
 print("=== solution2 ===")
-[run_test(solution2,values) for values in TEST_DATASET]
+[run_test(solution2, values) for values in TEST_DATASET]
 
 print()
 print("=== solution3 ===")
-[run_test(solution3,values) for values in TEST_DATASET]
+[run_test(solution3, values) for values in TEST_DATASET]
+
+print()
+print("=== solution4 ===")
+[run_test(solution4, values) for values in TEST_DATASET]
+
+[print(flat(values)) for values in TEST_DATASET]
