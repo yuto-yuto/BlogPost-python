@@ -17,6 +17,7 @@ def test_sum_one_plus_two():
     assert result == 3
     print("end")
 
+@pytest.mark.skip("Failure test")
 def test_sum_fail():
     print("start test_sum_fail")
     result = sum(1, 2)

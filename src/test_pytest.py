@@ -16,6 +16,7 @@ def test_sum_one_plus_two():
     print("end")
 
 
+@pytest.mark.skip("Failure test")
 def test_sum_fail():
     print("start test_sum_fail")
     result = sum(1, 2)
@@ -29,6 +30,7 @@ def test_div_raise_error():
     with pytest.raises(ZeroDivisionError) as err:
         div(1, 0)
 
+@pytest.mark.skip("Failure test")
 def test_div_raise_error2():
     with pytest.raises(NameError):
         div(1, 0)
