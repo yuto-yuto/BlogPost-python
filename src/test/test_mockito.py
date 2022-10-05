@@ -1,6 +1,5 @@
-from typing import List
 import pytest
-from mockito import matchers, mock, verify, when, when2, invocation, unstub
+from mockito import when, when2, invocation, unstub
 
 
 def sum_of(a, b):
@@ -36,8 +35,11 @@ class ForStub:
 def test1_func1():
     instance = ForStub()
     when(instance).func1(1, 1).thenReturn(3)
+    when(instance).func1(5, 1).thenReturn(99)
 
     assert 3 == instance.func1(1, 1)
+    assert 99 == instance.func1(5, 1)
+
     with pytest.raises(invocation.InvocationError):
         instance.func1(1, 2)
 
@@ -55,6 +57,8 @@ def test3_func1():
 
     instance = ForStub()
     assert 3 == instance.func1(1, 1)
+    instance2 = ForStub()
+    assert 3 == instance2.func1(1, 1)
 
 
 def test4_func1():
@@ -100,6 +104,15 @@ def test3_func2():
     assert [5, 6] == instance.func2()
 
 
+def test4_func2():
+    instance = ForStub()
+    when(instance).func2().thenReturn(1).thenReturn(5).thenReturn(8)
+
+    assert 1 == instance.func2()
+    assert 5 == instance.func2()
+    assert 8 == instance.func2()
+
+
 def test1_func3():
     instance = ForStub()
     with pytest.raises(AttributeError):
@@ -123,9 +136,9 @@ def test1_func4():
     instance = ForStub()
     # {'_ForStub__val': 1}
     print(instance.__dict__)
+
     def stub_private_func():
         return "dummy value"
 
     instance._ForStub__private_func = stub_private_func  # type: ignore
     assert "dummy value" == instance.func4()
-
