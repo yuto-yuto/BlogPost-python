@@ -86,4 +86,10 @@ data = {
     "juice:prop2": "3-2",
     "juice:prop3": "3-3",
 }
-print(restructure_dict(data, "(.+):(.+)"))
+restructed_data = restructure_dict(data, "(.+):(.+)")
+print(restructed_data)
+
+print(restructed_data["apple"]["prop1"])
+print(restructed_data["apple"])
+print(restructed_data["apple"].pop("prop1"))
+print(restructed_data["apple"])
