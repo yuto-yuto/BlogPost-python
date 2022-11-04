@@ -79,6 +79,7 @@ data = {
     "apple:prop1": "1-1",
     "apple:prop2": "1-2",
     "apple:prop3": "1-3",
+    "apple:prop4": None,
     "honey:prop1": "2-1",
     "honey:prop2": "2-2",
     "honey:prop3": "2-3",
@@ -92,4 +93,6 @@ print(restructed_data)
 print(restructed_data["apple"]["prop1"])
 print(restructed_data["apple"])
 print(restructed_data["apple"].pop("prop1"))
+print(restructed_data["apple"].pop("prop4"))
+print(restructed_data["apple"].pop("unknown", None))
 print(restructed_data["apple"])
