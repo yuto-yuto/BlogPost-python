@@ -14,6 +14,9 @@ class MyExtendedException(MyExceptionWithFixedMsg):
         # MyException2: 55, error_code: 55
         super().__init__()
 
+    def __str__(self):
+        return f"MyExtendedException(error_code: {self.error_code})"
+
 
 class MyExceptionWithParameters(Exception):
     def __init__(self, error_code):
@@ -71,9 +74,9 @@ def run1():
 
 def run2_():
     try:
-        raise TooColdException(error_code=123, extra_msg="hello")
-    except TooColdException as err:
-        print(f"error_code: {err.error_code}, extra_msg: {err.extra_msg}")
+        raise MyExtendedException(error_code=123)
+    except MyExtendedException as err:
+        print(f"error_code: {err.error_code}")
         print(f"str(err): {str(err)}")
 
 
