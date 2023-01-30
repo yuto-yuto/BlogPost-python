@@ -1,5 +1,5 @@
 import pytest
-from mockito import when, when2, invocation, unstub
+from mockito import when, when2, invocation, spy2, unstub, verify
 
 
 def sum_of(a, b):
@@ -19,6 +19,9 @@ class ForStub:
     def func1(self, param1: int, param2: int) -> int:
         return param1 + param2
 
+    def func1_name(self, *, param1: int, param2: int) -> int:
+        return self.func1(param1, param2)
+
     def func2(self) -> None:
         return
 
@@ -34,6 +37,16 @@ class ForStub:
     def func5(self, trigger, callback) -> None:
         if trigger:
             callback(1, 2)
+
+    def func6(self, trigger, callback) -> None:
+        def on_changed(values: list[int]):
+            if len(values) == 1:
+                callback(values[0])
+            else:
+                callback(",".join(map(str, values)))
+
+        if trigger:
+            on_changed([1, 2, 3, 4])
 
 
 def test1_func1():
@@ -180,3 +193,47 @@ def test3_func5():
     when(instance).func5(...).thenAnswer(lambda a, b: callback(5, 5))
     instance.func5(False, callback)
     assert value[0] == 10
+
+
+def test1_func6():
+    instance = ForStub()
+
+    def verify_callback(updated_value):
+        assert updated_value == "1,2,3,4"
+
+    instance.func6(True, verify_callback)
+
+
+def test1_verify_with_spy2():
+    instance = ForStub()
+    spy2(instance.func1)
+    instance.func1(1, 1)
+    instance.func1(2, 2)
+    verify(instance, atleast=1).func1(...)
+    verify(instance, atleast=1).func1(1, 1)
+    verify(instance, atleast=1).func1(2, 2)
+    verify(instance, times=2).func1(...)
+
+    # Error
+    # verify(instance, times=2).func1(1, 1)
+
+
+def test2_verify_with_spy2():
+    instance = ForStub()
+    spy2(instance.func1_name)
+    instance.func1_name(param1=1, param2=1)
+    instance.func1_name(param1=2, param2=2)
+    verify(instance, times=2).func1_name(...)
+    verify(instance, atleast=1).func1_name(param1=1, param2=1)
+    verify(instance, atleast=1).func1_name(param1=2, param2=2)
+
+
+def test_verify_with_when():
+    instance = ForStub()
+    when(instance).func1(...).thenReturn(5)
+    instance.func1(1, 1)
+    instance.func1(2, 2)
+    verify(instance, atleast=1).func1(...)
+    verify(instance, atleast=1).func1(1, 1)
+    verify(instance, atleast=1).func1(2, 2)
+    verify(instance, times=2).func1(...)
