@@ -31,6 +31,10 @@ class ForStub:
     def func4(self) -> str:
         return self.__private_func()
 
+    def func5(self, trigger, callback) -> None:
+        if trigger:
+            callback(1, 2)
+
 
 def test1_func1():
     instance = ForStub()
@@ -142,3 +146,37 @@ def test1_func4():
 
     instance._ForStub__private_func = stub_private_func  # type: ignore
     assert "dummy value" == instance.func4()
+
+
+def test1_func5():
+    instance = ForStub()
+    value = [0]
+
+    def callback(a, b):
+        value[0] = a + b
+
+    instance.func5(True, callback)
+    assert value[0] == 3
+
+
+def test2_func5():
+    instance = ForStub()
+    value = [0]
+
+    def callback(a, b):
+        value[0] = a + b
+
+    instance.func5(False, callback)
+    assert value[0] == 0
+
+
+def test3_func5():
+    instance = ForStub()
+    value = [0]
+
+    def callback(a, b):
+        value[0] = a + b
+
+    when(instance).func5(...).thenAnswer(lambda a, b: callback(5, 5))
+    instance.func5(False, callback)
+    assert value[0] == 10

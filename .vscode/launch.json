@@ -11,6 +11,18 @@
             "program": "${file}",
             "console": "internalConsole",
             "justMyCode": true
+        },
+        {
+            "name": "Python: Debug Tests",
+            "type": "python",
+            "request": "launch",
+            "purpose": [
+                "debug-test"
+            ],
+            "console": "internalConsole",
+            "justMyCode": false,
+            "program": "/usr/local/bin/pytest",
+            "cwd": "${workspaceFolder}/src/test"
         }
     ]
 }
