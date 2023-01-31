@@ -12,9 +12,16 @@ def after():
     unstub()
 
 
+class DataChangeDetector:
+    def trigger_callback(self, trigger, callback):
+        if trigger:
+            callback(1, 2)
+
+
 class ForStub:
-    def __init__(self):
+    def __init__(self, detector = DataChangeDetector()):
         self.__val = 1
+        self.__detector = detector
 
     def func1(self, param1: int, param2: int) -> int:
         return param1 + param2
@@ -35,8 +42,7 @@ class ForStub:
         return self.__private_func()
 
     def func5(self, trigger, callback) -> None:
-        if trigger:
-            callback(1, 2)
+        self.__detector.trigger_callback(trigger,callback)
 
     def func6(self, trigger, callback) -> None:
         def on_changed(values: list[int]):
@@ -151,8 +157,8 @@ def test2_func3():
 
 def test1_func4():
     instance = ForStub()
-    # {'_ForStub__val': 1}
-    print(instance.__dict__)
+    # private string value
+    print(instance.func4())
 
     def stub_private_func():
         return "dummy value"
@@ -184,13 +190,14 @@ def test2_func5():
 
 
 def test3_func5():
-    instance = ForStub()
+    detector = DataChangeDetector()
+    instance = ForStub(detector)
     value = [0]
 
     def callback(a, b):
         value[0] = a + b
 
-    when(instance).func5(...).thenAnswer(lambda a, b: callback(5, 5))
+    when(detector).trigger_callback(...).thenAnswer(lambda a, b: callback(5, 5))
     instance.func5(False, callback)
     assert value[0] == 10
 
@@ -210,9 +217,9 @@ def test1_verify_with_spy2():
     instance.func1(1, 1)
     instance.func1(2, 2)
     verify(instance, atleast=1).func1(...)
+    verify(instance, times=2).func1(...)
     verify(instance, atleast=1).func1(1, 1)
     verify(instance, atleast=1).func1(2, 2)
-    verify(instance, times=2).func1(...)
 
     # Error
     # verify(instance, times=2).func1(1, 1)
@@ -234,6 +241,6 @@ def test_verify_with_when():
     instance.func1(1, 1)
     instance.func1(2, 2)
     verify(instance, atleast=1).func1(...)
+    verify(instance, times=2).func1(...)
     verify(instance, atleast=1).func1(1, 1)
     verify(instance, atleast=1).func1(2, 2)
-    verify(instance, times=2).func1(...)
