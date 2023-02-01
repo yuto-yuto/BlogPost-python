@@ -1,6 +1,12 @@
 data_dict = {1: "Apple", 2: "Orange", 3: "Strawberry"}
+data_dict2 = dict(one="Apple", two="Orange")
+empty_dict1 = {}
+empty_dict2 = dict()
 # {1: 'Apple', 2: 'Orange', 3: 'Strawberry'}
 print(data_dict)
+print(data_dict2)
+
+
 # 1: Apple, 2: Orange, 3: Strawberry
 print(f"1: {data_dict[1]}, 2: {data_dict[2]}, 3: {data_dict[3]}")
 data_dict[4] = "Blueberry"
