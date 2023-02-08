@@ -1,6 +1,3 @@
-import json
-import datetime
-
 # class Position:
 #     def __init__(self, x, y):
 #         self.x = x
@@ -20,14 +17,24 @@ import datetime
 
 array1 = [1, 2, 3, 4]
 array2 = [9, 8, 7, 6]
-arrayOfArray = [array1, array2]
+array_of_array = [array1, array2]
+flatten_array = [*array1, *array2]
 
-print("--- *arrayOfArray ---")
-print(*arrayOfArray)
-print("--- **arrayOfArray ---")
+print(array_of_array)  # [[1, 2, 3, 4], [9, 8, 7, 6]]
+print(flatten_array)  # [1, 2, 3, 4, 9, 8, 7, 6]
 
-a = [
-    *arrayOfArray[0],
-    *arrayOfArray[1],
+print("--- with asterisk ---")
+print(*array_of_array)  # [1, 2, 3, 4] [9, 8, 7, 6]
+print(*flatten_array)  # 1 2 3 4 9 8 7 6
+
+flatten_array2 = [
+    *array_of_array[0],
+    *array_of_array[1],
 ]
-print(datetime.datetime.now())
+print(flatten_array2)  # [1, 2, 3, 4, 9, 8, 7, 6]
+
+
+def calc_sum(a, b, c, d):
+    print(f"sum({a}, {b}, {c}, {d}):{a+b+c+d}")
+
+calc_sum(*array1) # sum(1, 2, 3, 4):10
