@@ -30,7 +30,6 @@ def without_thread():
 def with_thread1():
     for index in range(NUMBER_OF_FILES):
         worker = Thread(target=download_file, daemon=True, args=[index])
-        worker.daemon = True
         worker.start()
         worker.join()
 
