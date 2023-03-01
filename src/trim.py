@@ -12,7 +12,11 @@ print(f"lstrip('!')\t [{text2.lstrip('!')}]") # lstrip('!')      [ *** Hello Wor
 print(f"strip('!')\t [{text2.strip('!')}]")   # strip('!')       [ *** Hello World]
 
 print()
-print(f"rstrip('!')\t [{text2.rstrip('* !')}]") # rstrip('!')      [! *** Hello World]
-print(f"lstrip('!')\t [{text2.lstrip('* !')}]") # lstrip('!')      [Hello World!!]
-print(f"strip('!')\t [{text2.strip('* !')}]")   # strip('!')       [Hello World]
+print(f"rstrip('* !')\t [{text2.rstrip('* !')}]") # rstrip('* !')    [! *** Hello World]
+print(f"lstrip('* !')\t [{text2.lstrip('* !')}]") # lstrip('* !')    [Hello World!!]
+print(f"strip('* !')\t [{text2.strip('* !')}]")   # strip('* !')     [Hello World]
 
+text3 = "! *** Hello ** !! World!!"
+print(f"rstrip('* !')\t [{text3.rstrip('* !')}]") # rstrip('* !')    [! *** Hello ** !! World]
+print(f"lstrip('* !')\t [{text3.lstrip('* !')}]") # lstrip('* !')    [Hello ** !! World!!]
+print(f"strip('* !')\t [{text3.strip('* !')}]")   # strip('* !')     [Hello ** !! World]
