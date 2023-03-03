@@ -1,3 +1,39 @@
+print("--- check if string is number ---")
+print("--- isnumeric ---")
+print('13'.isnumeric()) # True
+print("13".isnumeric()) # True
+print("1/2".isnumeric()) # False
+print("13.123".isnumeric()) # False
+print("0x12".isnumeric())   # False
+
+print("--- isdigit ---")
+print('13'.isdigit()) # True
+print("13".isdigit()) # True
+print("1/2".isdigit()) # False
+print("13.123".isdigit()) # False
+print("0x12".isdigit())   # False
+
+print("--- isdecimal ---")
+print('13'.isdecimal()) # True
+print("13".isdecimal()) # True
+print("1/2".isdecimal()) # False
+print("13.123".isdecimal()) # False
+print("0x12".isdecimal())   # False
+
+def is_float(txt):
+    try:
+        float(txt)
+        return True
+    except ValueError:
+        return False
+    
+print("--- is_float ---")
+print(is_float('13')) # True
+print(is_float("13")) # True
+print(is_float("1/2")) # False
+print(is_float("13.123")) # True
+print(is_float("0x12") )  # False
+
 print("--- string to float ---")
 print(float("15"))  # 15.0
 print(float("15.99"))  # 15.99
@@ -14,10 +50,6 @@ print(int("11", 2))  # 3
 print(int("11", 10))  # 11
 print(int("11", 16))  # 17
 print(int("FF", 16))  # 255
-
-print("--- string to int ---")
-print(str(11))  # 11
-print(str(11.123))  # 11.123
 
 print("--- list to string ---")
 list1 = [1, 2, 3, 4, 5]
