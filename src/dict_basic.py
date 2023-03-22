@@ -1,5 +1,6 @@
 from typing import Dict
 from collections import defaultdict
+import json
 import random
 
 # print({1.1: 1})
@@ -7,6 +8,7 @@ import random
 # print(dict(1.1=1))
 
 print("----- Read -----")
+
 
 def run():
     data_dict = {1: "Apple", 2: "Orange", 3: "Strawberry"}
@@ -51,7 +53,7 @@ def without_defaultdict():
 
 
 def with_defaultdict():
-    count_dict: Dict[int, int] = defaultdict(lambda : 5)
+    count_dict: Dict[int, int] = defaultdict(lambda: 5)
 
     for num in range(10):
         num = int(random.random() * 5)
@@ -60,5 +62,55 @@ def with_defaultdict():
     for key, value in count_dict.items():
         print(f"key: {key}, value: {value}")
 
+
 # without_defaultdict()
 with_defaultdict()
+
+
+def dictToString():
+    data = {
+        "pineapple": 10,
+        "apple juice": 4,
+        "orange": 6,
+        "water melon": 11
+    }
+    # <class 'str'>
+    print(type(str(data)))
+    # {'pineapple': 10, 'apple juice': 4, 'orange': 6, 'water melon': 11}
+    print(str(data))
+    # {"pineapple": 10, "apple juice": 4, "orange": 6, "water melon": 11}
+    print(json.dumps(data))
+    # {
+    #   "apple juice": 4,
+    #   "orange": 6,
+    #   "pineapple": 10,
+    #   "water melon": 11
+    # }
+    print(json.dumps(data, sort_keys=True, indent=2))
+    # {
+    #   "apple juice" -> 4 |
+    #   "orange" -> 6 |
+    #   "pineapple" -> 10 |
+    #   "water melon" -> 11
+    # }
+    print(json.dumps(data, sort_keys=True, indent=2, separators=(" |", " -> ")))
+
+    class_key = {
+        (1, 2, 3): 1,
+        (1): 2,
+        (4): 3,
+        5: 4,
+    }
+    # {(1, 2, 3): 1, 1: 2, 4: 3, 5: 4
+    print(str(class_key))
+    try:        
+        print(json.dumps(class_key))
+    except TypeError as err:
+        # keys must be str, int, float, bool or None, not tuple
+        print(err)
+
+    # {"1": 2, "4": 3, "5": 4}
+    print(json.dumps(class_key, skipkeys=True))
+
+
+dictToString()
