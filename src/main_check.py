@@ -1,9 +1,11 @@
+import sys
+
 def main():
-    print("Hello World! --- from main")
+    print(f"Hello World! ({sys.argv})--- from main")
 
 
 def sub():
-    print("Hello World! --- from sub")
+    print(f"Hello World! ({sys.argv}) --- from sub")
 
 
 if __name__ == "__main__":
