@@ -1,3 +1,10 @@
+class WithKwargsException(Exception):
+    def __init__(self, **kwargs: object) -> None:
+        self.kwargs = kwargs
+
+    def __str__(self):
+        return f"message with keywords: {str(self.kwargs)}"
+
 class CustomException(Exception):
     pass
 
@@ -134,3 +141,12 @@ def run3():
         print(isinstance(error, Exception))  # True
         print(isinstance(error, MyExceptionWithParameters))  # False
         print(isinstance(error, TooColdException))  # True
+
+
+def run4():
+    try:
+        raise WithKwargsException(prop1="1", prop2="2",prop3=3)
+    except WithKwargsException as err:
+        print(err)
+
+run4()
