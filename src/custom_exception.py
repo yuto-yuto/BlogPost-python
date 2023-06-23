@@ -3,7 +3,17 @@ class WithKwargsException(Exception):
         self.kwargs = kwargs
 
     def __str__(self):
-        return f"message with keywords: {str(self.kwargs)}"
+        return "message with keywords: {}".format(str(self.kwargs))
+
+
+class ExtendedWithKwargsException(WithKwargsException):
+    def __init__(
+        self, prop1: str, prop2: str, prop3: int, another_error: BaseException
+    ) -> None:
+        super().__init__(
+            prop1=prop1, prop2=prop2, prop3=prop3, another_error=another_error
+        )
+
 
 class CustomException(Exception):
     pass
@@ -144,9 +154,31 @@ def run3():
 
 
 def run4():
+    # try:
+    #     raise WithKwargsException(
+    #         prop1="1", prop2="2", prop3=3, another_error=SyntaxError()
+    #     )
+    # except WithKwargsException as err:
+    #     print(err)
+
+    # try:
+    #     1 / 0
+    # except Exception as err:
+    #     error = WithKwargsException(
+    #         prop1="1",
+    #         prop2="2",
+    #         prop3=3,
+    #         another_error=err,
+    #         prop4={"foo": 1, "hoge": 2},
+    #     )
+    #     print(error)
+
     try:
-        raise WithKwargsException(prop1="1", prop2="2",prop3=3)
-    except WithKwargsException as err:
-        print(err)
+        raise ExtendedWithKwargsException(
+            prop1="1", prop2="2", prop3=3, another_error=SyntaxError()
+        )
+    except ExtendedWithKwargsException as err:
+        print(str(err))
+
 
 run4()
