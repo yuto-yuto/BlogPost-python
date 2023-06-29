@@ -70,13 +70,13 @@ def run_array_list():
 
 # fmt: off
 LOOP_COUNT = 10
-print(timeit.timeit("run_pairs()", "from __main__ import run_pairs", number=LOOP_COUNT))                    # 0.12703390000024228
-print(timeit.timeit("run_pairs_getattr()", "from __main__ import run_pairs_getattr", number=LOOP_COUNT))    # 0.22224160000041593
-print(timeit.timeit("run_tuples()", "from __main__ import run_tuples", number=LOOP_COUNT))                  # 0.0931681000001845
-print(timeit.timeit("run_dict_items()", "from __main__ import run_dict_items", number=LOOP_COUNT))          # 0.05921939999825554
-print(timeit.timeit("run_dict_keys()", "from __main__ import run_dict_keys", number=LOOP_COUNT))            # 0.08337070000015956
-print(timeit.timeit("run_dict_list_dict()", "from __main__ import run_dict_list_dict", number=LOOP_COUNT))  # 0.11336169999958656
-print(timeit.timeit("run_dict_list_items()", "from __main__ import run_dict_list_items", number=LOOP_COUNT))# 0.2255674000007275
-print(timeit.timeit("run_array_list()", "from __main__ import run_array_list", number=LOOP_COUNT))          # 0.11569450000024517
+print(timeit.timeit("run_pairs()", "from __main__ import run_pairs", number=LOOP_COUNT))                    # 0.1270339000002422  0.12103550099982385   0.1205554100006338
+print(timeit.timeit("run_pairs_getattr()", "from __main__ import run_pairs_getattr", number=LOOP_COUNT))    # 0.2222416000004159  0.18320076200052426   0.2053344470004958
+print(timeit.timeit("run_tuples()", "from __main__ import run_tuples", number=LOOP_COUNT))                  # 0.0931681000001845  0.09771581199947832   0.1063894089993482
+print(timeit.timeit("run_dict_items()", "from __main__ import run_dict_items", number=LOOP_COUNT))          # 0.0592193999982555  0.05689544600045337   0.0650553529994795
+print(timeit.timeit("run_dict_keys()", "from __main__ import run_dict_keys", number=LOOP_COUNT))            # 0.0833707000001595  0.07583839899962186   0.0873097409994443
+print(timeit.timeit("run_dict_list_dict()", "from __main__ import run_dict_list_dict", number=LOOP_COUNT))  # 0.1133616999995865  0.08741327899952012   0.1128004120000696
+print(timeit.timeit("run_dict_list_items()", "from __main__ import run_dict_list_items", number=LOOP_COUNT))# 0.2255674000007275  0.22594992500035005   0.3004420150000442
+print(timeit.timeit("run_array_list()", "from __main__ import run_array_list", number=LOOP_COUNT))          # 0.1156945000002451  0.09885911899982602   0.1573325290000866
 
 
