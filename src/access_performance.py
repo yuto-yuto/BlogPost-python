@@ -83,7 +83,7 @@ def run_array_list():
 
 
 # fmt: off
-LOOP_COUNT = 10
+LOOP_COUNT = 100
 print(timeit.timeit("run_pairs()", "from __main__ import run_pairs", number=LOOP_COUNT))                    
 print(timeit.timeit("run_pairs_getattr()", "from __main__ import run_pairs_getattr", number=LOOP_COUNT))    
 print(timeit.timeit("run_tuples()", "from __main__ import run_tuples", number=LOOP_COUNT))                  
@@ -94,17 +94,17 @@ print(timeit.timeit("run_dict_list_dict()", "from __main__ import run_dict_list_
 print(timeit.timeit("run_dict_list_items()", "from __main__ import run_dict_list_items", number=LOOP_COUNT))
 print(timeit.timeit("run_array_list()", "from __main__ import run_array_list", number=LOOP_COUNT))          
 
-# PC1
-# run_pairs           | 0.1270339000002422 | 0.12103550099982385 | 0.1205554100006338
-# run_pairs_getattr   | 0.2222416000004159 | 0.18320076200052426 | 0.2053344470004958
-# run_tuples          | 0.0931681000001845 | 0.09771581199947832 | 0.1063894089993482
-# run_named_tuples    |                    |                     |       
-# run_dict_items      | 0.0592193999982555 | 0.05689544600045337 | 0.0650553529994795
-# run_dict_keys       | 0.0833707000001595 | 0.07583839899962186 | 0.0873097409994443
-# run_dict_list_dict  | 0.1133616999995865 | 0.08741327899952012 | 0.1128004120000696
-# run_dict_list_items | 0.2255674000007275 | 0.22594992500035005 | 0.3004420150000442
-# run_array_list      | 0.1156945000002451 | 0.09885911899982602 | 0.1573325290000866
-
+# PC1 fast                                                | 100 times
+# run_pairs           | 0.1475 | 0.1210 | 0.1212 | 0.1569 | 1.2793
+# run_pairs_getattr   | 0.2125 | 0.2047 | 0.1974 | 0.2053 | 1.9415
+# run_tuples          | 0.1372 | 0.1215 | 0.1184 | 0.1326 | 1.0986
+# run_named_tuples    | 0.1064 | 0.1174 | 0.1118 | 0.1328 | 1.2105
+# run_dict_items      | 0.0706 | 0.0636 | 0.0673 | 0.0806 | 0.6058
+# run_dict_keys       | 0.0821 | 0.0934 | 0.0850 | 0.1089 | 0.9272
+# run_dict_list_dict  | 0.1004 | 0.0963 | 0.0969 | 0.1052 | 1.1009
+# run_dict_list_items | 0.2421 | 0.2247 | 0.2282 | 0.2549 | 2.3844
+# run_array_list      | 0.1283 | 0.1146 | 0.1166 | 0.1531 | 1.2289
+ 
 # PC2
 # run_pairs           | 0.1872 | 0.1888 | 0.1935 | 0.2631
 # run_pairs_getattr   | 0.2964 | 0.3164 | 0.2835 | 0.4495
