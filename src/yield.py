@@ -1,3 +1,5 @@
+from typing import Iterator
+
 def DoYield():
     print("first")
     yield 1
@@ -43,8 +45,8 @@ except BaseException as err:
 print("End DoYield 3-2\n")
 
 print("Call DoYield 4")
-for next in DoYield():
-    print(next)
+for next_value in DoYield():
+    print(next_value)
 print("End DoYield 4\n")
 
 
@@ -83,3 +85,22 @@ print("Call DoYield3")
 result = DoYield3(True)
 [print(v) for v in result]
 print("End DoYield3")
+
+def DoYield4():
+    count = 0
+    while count < 2:
+        count += 1
+        yield count
+    
+    try:
+        raise StopIteration
+    except:
+        print("end yield")
+
+print()
+print("Call DoYield4")
+result = DoYield4()
+# [print(v) for v in result]
+print(next(result))
+print(next(result))
+print(next(result))
