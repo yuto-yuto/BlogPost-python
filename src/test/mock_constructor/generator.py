@@ -14,4 +14,9 @@ class ItemGenerator:
         else:
             generator = FolderGenerator()
 
-        return generator.generate(path)
+        result = generator.generate(path)
+
+        if "copied" in result:
+            return "copied"
+        
+        return result
