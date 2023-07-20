@@ -1,68 +1,12 @@
-from typing import Iterator, List
+from typing import List
 
 
-def innter_yield(value: int) -> Iterator[int]:
-    try:
-        print("yield 1")
-        yield 1
-        print("yield 2")
-        yield 2
-
-        if value > 0:
-            print("raise")
-            raise KeyError(f"value: {value}")
-
-        print("yield 3")
-        yield 3
-
-        if value > 5:
-            return
-    finally:
-        print("finally block")
-
-    print("after try-except-finally in innter_yield")
-
-
-def run1(param: int):
-    try:
-        result_iterator = innter_yield(param)
-        for val in result_iterator:
-            print(f"iterate innter_yield({param}): {val}")
-        print(f"iterate innter_yield({param}) ends")
-    finally:
-        print("finally in run1")
-
-    print("after try-except-finally in run1")
-
-
-def run2(param: int):
-    try:
-        result_iterator = innter_yield(param)
-        for val in result_iterator:
-            print(f"iterate innter_yield(param): {val}")
-        print(f"iterate innter_yield({param}) ends")
-    except StopIteration:
-        print("StopIteration error")
-    finally:
-        print("finally in run2")
-
-    print("after try-except-finally in run2")
-
-
-def run3(param: int):
-    try:
-        result_iterator = innter_yield(param)
-        for val in result_iterator:
-            print(f"iterate innter_yield({param}): {val}")
-        print("iterate innter_yield({param}) ends")
-    except StopIteration:
-        print("StopIteration error")
-    except KeyError:
-        print("Caught KeyError")
-    finally:
-        print("finally in do_yield4_2")
-
-    print("after try-except-finally in do_yield4_2")
+def do_something(value: int):
+    if value > 5:
+        raise NameError(f"uncaught error from do_something. value: {value}")
+    if value > 0:
+        raise RuntimeError(f"error from do_something. value: {value}")
+    print(f"do something. value: {value}")
 
 
 def reset_state(value: int) -> None:
@@ -71,20 +15,18 @@ def reset_state(value: int) -> None:
     print("reset done")
 
 
-def run_reset1(param: int):
+def run_reset1(value: int):
     try:
-        result_iterator = innter_yield(param)
-        for val in result_iterator:
-            print(f"iterate innter_yield({param}): {val}")
-        print("iterate innter_yield({param}) ends")
-    except StopIteration:
-        pass
+        do_something(value)
+    except RuntimeError as err:
+        print(err)
     finally:
-        reset_state(param)
+        reset_state(value)
 
 
 class MultiExceptions(Exception):
     def __init__(self, errors: List[Exception]) -> None:
+        self.errors = errors
         messages = ", ".join([f"{type(x)}: {str(x)}" for x in errors])
         super().__init__(messages)
 
@@ -92,12 +34,7 @@ class MultiExceptions(Exception):
 def run_reset2(param: int):
     errors: List[Exception] = []
     try:
-        result_iterator = innter_yield(param)
-        for val in result_iterator:
-            print(f"iterate innter_yield({param}): {val}")
-        print("iterate innter_yield({param}) ends")
-    except StopIteration:
-        pass
+        do_something(param)
     except Exception as err:
         errors.append(err)
 
@@ -113,7 +50,30 @@ def run_reset2(param: int):
 
     print("completed")
 
-try:
-    run_reset2(1)
-except Exception as err:
-    print(err)
+
+def catch_error1(value: int):
+    try:
+        run_reset1(value)
+    except Exception as ex:
+        print(ex)
+
+
+def catch_error2(value: int):
+    try:
+        run_reset2(value)
+    except MultiExceptions as ex:
+        print(f"ERRORS: {ex}")
+        if RuntimeError in ex.errors:
+            print("RuntimeError is included.")
+        for error in ex.errors:
+            if isinstance(error, RuntimeError):
+                print(f"RuntimeError: {error}")
+
+
+# run_reset1(0)
+# run_reset1(1)
+# catch_error1(1)
+# catch_error1(10)
+
+catch_error2(0)
+catch_error2(1)
