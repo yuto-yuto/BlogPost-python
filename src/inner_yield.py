@@ -8,7 +8,7 @@ def innter_yield(value: int) -> Iterator[int]:
         print("yield 2")
         yield 2
 
-        if value > 0:
+        if value < 5:
             print("raise")
             raise KeyError(f"value: {value}")
 
@@ -68,7 +68,7 @@ def run3(param: int):
 
 
 def reset_state(value: int) -> None:
-    if value > 0:
+    if value <= 0:
         raise ValueError("value must be bigger than 0")
     print("reset done")
 
@@ -80,7 +80,7 @@ def run_reset1(param: int):
             print(f"iterate innter_yield({param}): {val}")
         print("iterate innter_yield({param}) ends")
     except StopIteration:
-        pass
+        print("Caught StopIteration")
     finally:
         reset_state(param)
 
@@ -100,7 +100,7 @@ def run_reset2(param: int):
             print(f"iterate innter_yield({param}): {val}")
         print("iterate innter_yield({param}) ends")
     except StopIteration:
-        pass
+        print("Caught StopIteration")
     except Exception as err:
         errors.append(err)
 
@@ -117,11 +117,11 @@ def run_reset2(param: int):
     print("completed")
 
 try:
-    run_reset2(1)
+    run_reset2(10)
 except Exception as err:
     print(err)
 
-try:
-    run_reset1(1)
-except Exception as err:
-    print(err)
+# try:
+#     run_reset1(1)
+# except Exception as err:
+#     print(err)
