@@ -1,5 +1,5 @@
 import pytest
-from mockito import when, when2, invocation, spy2, unstub, verify
+from mockito import matchers, when, when2, invocation, spy2, unstub, verify
 
 
 def sum_of(a, b):
@@ -19,7 +19,7 @@ class DataChangeDetector:
 
 
 class ForStub:
-    def __init__(self, detector = DataChangeDetector()):
+    def __init__(self, detector=DataChangeDetector()):
         self.__val = 1
         self.__detector = detector
 
@@ -42,7 +42,7 @@ class ForStub:
         return self.__private_func()
 
     def func5(self, trigger, callback) -> None:
-        self.__detector.trigger_callback(trigger,callback)
+        self.__detector.trigger_callback(trigger, callback)
 
     def func6(self, trigger, callback) -> None:
         def on_changed(values: list[int]):
@@ -200,6 +200,28 @@ def test3_func5():
     when(detector).trigger_callback(...).thenAnswer(lambda a, b: callback(5, 5))
     instance.func5(False, callback)
     assert value[0] == 10
+
+
+def test4_func5():
+    detector = DataChangeDetector()
+    instance = ForStub(detector)
+
+    captor = matchers.captor()
+    when(detector).trigger_callback(False, captor)
+
+    value = [0]
+
+    def callback(a, b):
+        value[0] = a + b
+
+    instance.func5(False, callback)
+
+    callback_in_trigger_callback = captor.value
+
+    callback_in_trigger_callback(1, 1)
+    assert value[0] == 2
+    callback_in_trigger_callback(3, 3)
+    assert value[0] == 6
 
 
 def test1_func6():

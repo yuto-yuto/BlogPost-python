@@ -20,9 +20,11 @@
                 "debug-test"
             ],
             "console": "internalConsole",
-            "justMyCode": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "justMyCode": true,
             "program": "/usr/local/bin/pytest",
-            "cwd": "${workspaceFolder}/src/test"
+            "cwd": "${workspaceFolder}/src/test",
+            "args": []
         }
     ]
 }
