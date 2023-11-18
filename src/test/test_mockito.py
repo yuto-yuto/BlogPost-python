@@ -1,5 +1,7 @@
 import pytest
+
 from mockito import matchers, when, when2, invocation, spy2, unstub, verify
+from typing import Callable, Optional
 
 
 def sum_of(a, b):
@@ -13,9 +15,21 @@ def after():
 
 
 class DataChangeDetector:
+    _current_value: Optional[int] = None
+    _listener: Optional[Callable[[int], None]] = None
+
     def trigger_callback(self, trigger, callback):
         if trigger:
             callback(1, 2)
+
+    def subscribe(self, callback: Callable[[int], None]):
+        self._listener = callback
+
+    def update(self, value: int):
+        if self._current_value != value:
+            self._current_value = value
+            if self._listener is not None:
+                self._listener(value)
 
 
 class ForStub:
@@ -53,6 +67,15 @@ class ForStub:
 
         if trigger:
             on_changed([1, 2, 3, 4])
+
+    def subscribe(self, callback: Callable[[int], None]) -> None:
+        def on_updated(new_value: int):
+            if new_value < 10:
+                callback(5)
+            else:
+                callback(new_value)
+
+        self.__detector.subscribe(on_updated)
 
 
 def test1_func1():
@@ -197,7 +220,8 @@ def test3_func5():
     def callback(a, b):
         value[0] = a + b
 
-    when(detector).trigger_callback(...).thenAnswer(lambda a, b: callback(5, 5))
+    when(detector).trigger_callback(...).thenAnswer(
+        lambda a, b: callback(5, 5))
     instance.func5(False, callback)
     assert value[0] == 10
 
@@ -231,6 +255,45 @@ def test1_func6():
         assert updated_value == "1,2,3,4"
 
     instance.func6(True, verify_callback)
+
+
+def test1_subscribe():
+    detector = DataChangeDetector()
+    instance = ForStub(detector)
+
+    value = [0]
+
+    def callback(new_value):
+        value[0] = new_value
+
+    instance.subscribe(callback)
+
+    detector.update(9)
+    assert value[0] == 5
+    detector.update(10)
+    assert value[0] == 10
+
+
+def test2_subscribe():
+    detector = DataChangeDetector()
+    instance = ForStub(detector)
+
+    captor = matchers.captor()
+    when(detector).subscribe(captor)
+
+    value = [0]
+
+    def callback(new_value):
+        value[0] = new_value
+
+    instance.subscribe(callback)
+
+    on_updated = captor.value
+
+    on_updated(9)
+    assert value[0] == 5
+    on_updated(10)
+    assert value[0] == 10
 
 
 def test1_verify_with_spy2():
