@@ -130,9 +130,10 @@ def write_log(logger: logging.Logger):
 
 log_path_dir = Path(__file__).parent.joinpath("temp")
 log_path = Path(log_path_dir).joinpath("test.log")
-logger_with = generate_logger_with_custom_formatter(str(log_path))
-write_log(logger_with)
-
-log_path2 = Path(log_path_dir).joinpath("test_without.log")
-logger_without = generate_logger_without_custom_formatter(str(log_path2))
+logger_without = generate_logger_without_custom_formatter(str(log_path))
 write_log(logger_without)
+
+
+log_path2 = Path(log_path_dir).joinpath("test.log")
+logger_with = generate_logger_with_custom_formatter(str(log_path2))
+write_log(logger_with)
